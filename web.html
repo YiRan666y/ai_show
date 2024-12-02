@@ -1,4 +1,126 @@
-<p>before iframe</p>
-<iframe width=330 height=86 src="http://www.tcataiwan.org/paperdetail.asp?HP_ID=2222"></iframe>
-<p>after iframe</p>
-这是<span style="color: blue;background: red">红底蓝字</span>啊!
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MBTI 测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f4f4f9;
+        }
+        h1 {
+            color: #6a0dad;
+            font-weight: bold;
+            font-size: 24px;
+            text-align: center;
+            border: 2px solid #6a0dad;
+            padding: 10px;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+        .question {
+            display: none; /* 默认隐藏所有问题 */
+        }
+        .question.active {
+            display: block; /* 当前问题显示 */
+        }
+        .button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            display: none; /* 结果初始隐藏 */
+        }
+    </style>
+</head>
+<body>
+
+    <h1>MBTI 性格测试</h1>
+
+    <!-- 问题 1 -->
+    <div class="question active" id="question-1">
+        <label>你更喜欢以下哪种活动？</label><br>
+        <input type="radio" name="energy" value="E"> 外向活动<br>
+        <input type="radio" name="energy" value="I"> 内向活动<br>
+        <button class="button" onclick="nextQuestion(1)">下一题</button>
+    </div>
+
+    <!-- 问题 2 -->
+    <div class="question" id="question-2">
+        <label>你做决定时更依赖：</label><br>
+        <input type="radio" name="decision" value="T"> 理性分析<br>
+        <input type="radio" name="decision" value="F"> 个人情感<br>
+        <button class="button" onclick="nextQuestion(2)">下一题</button>
+    </div>
+
+    <!-- 问题 3 -->
+    <div class="question" id="question-3">
+        <label>你更倾向于：</label><br>
+        <input type="radio" name="approach" value="J"> 计划和组织<br>
+        <input type="radio" name="approach" value="P"> 灵活应对<br>
+        <button class="button" onclick="nextQuestion(3)">下一题</button>
+    </div>
+
+    <!-- 结果显示 -->
+    <div class="result" id="result">
+        <h2>你的 MBTI 类型是：</h2>
+        <p id="mbtiType"></p>
+    </div>
+
+    <script>
+        // 保存用户答案的对象
+        const answers = {};
+
+        // 跳转到下一题
+        function nextQuestion(currentQuestion) {
+            // 获取当前问题的选项
+            const currentInputs = document.querySelectorAll(`#question-${currentQuestion} input`);
+            let answered = false;
+
+            // 检查是否回答了当前问题
+            currentInputs.forEach(input => {
+                if (input.checked) {
+                    answers[input.name] = input.value; // 保存答案
+                    answered = true;
+                }
+            });
+
+            if (!answered) {
+                alert("请先选择一个选项！");
+                return;
+            }
+
+            // 隐藏当前问题
+            document.getElementById(`question-${currentQuestion}`).classList.remove('active');
+
+            // 显示下一问题或结果
+            const nextQuestion = document.getElementById(`question-${currentQuestion + 1}`);
+            if (nextQuestion) {
+                nextQuestion.classList.add('active');
+            } else {
+                showResult();
+            }
+        }
+
+        // 显示结果
+        function showResult() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.style.display = 'block';
+
+            // 根据用户答案计算 MBTI
+            const mbti = (answers.energy || '') + (answers.decision || '') + (answers.approach || '');
+            document.getElementById('mbtiType').innerText = mbti;
+        }
+    </script>
+
+</body>
+</html>
