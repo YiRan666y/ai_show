@@ -49,25 +49,91 @@
     <!-- 问题 1 -->
     <div class="question active" id="question-1">
         <label>你更喜欢以下哪种活动？</label><br>
-        <input type="radio" name="energy" value="E"> 外向活动<br>
-        <input type="radio" name="energy" value="I"> 内向活动<br>
+        <input type="radio" name="q1" value="E"> 外向活动<br>
+        <input type="radio" name="q1" value="M"> 介于外向和内向之间<br>
+        <input type="radio" name="q1" value="I"> 内向活动<br>
         <button class="button" onclick="nextQuestion(1)">下一题</button>
     </div>
 
     <!-- 问题 2 -->
     <div class="question" id="question-2">
         <label>你做决定时更依赖：</label><br>
-        <input type="radio" name="decision" value="T"> 理性分析<br>
-        <input type="radio" name="decision" value="F"> 个人情感<br>
+        <input type="radio" name="q2" value="T"> 理性分析<br>
+        <input type="radio" name="q2" value="B"> 理性与情感兼顾<br>
+        <input type="radio" name="q2" value="F"> 个人情感<br>
         <button class="button" onclick="nextQuestion(2)">下一题</button>
     </div>
 
     <!-- 问题 3 -->
     <div class="question" id="question-3">
         <label>你更倾向于：</label><br>
-        <input type="radio" name="approach" value="J"> 计划和组织<br>
-        <input type="radio" name="approach" value="P"> 灵活应对<br>
+        <input type="radio" name="q3" value="J"> 计划和组织<br>
+        <input type="radio" name="q3" value="M"> 计划与灵活兼具<br>
+        <input type="radio" name="q3" value="P"> 灵活应对<br>
         <button class="button" onclick="nextQuestion(3)">下一题</button>
+    </div>
+
+    <!-- 问题 4 -->
+    <div class="question" id="question-4">
+        <label>在获取信息时，你更喜欢：</label><br>
+        <input type="radio" name="q4" value="S"> 具体事实和细节<br>
+        <input type="radio" name="q4" value="M"> 事实与直觉结合<br>
+        <input type="radio" name="q4" value="N"> 大局与可能性<br>
+        <button class="button" onclick="nextQuestion(4)">下一题</button>
+    </div>
+
+    <!-- 问题 5 -->
+    <div class="question" id="question-5">
+        <label>面对复杂问题时，你通常：</label><br>
+        <input type="radio" name="q5" value="A"> 系统性分析<br>
+        <input type="radio" name="q5" value="B"> 分析与直觉结合<br>
+        <input type="radio" name="q5" value="I"> 依赖直觉<br>
+        <button class="button" onclick="nextQuestion(5)">下一题</button>
+    </div>
+
+    <!-- 问题 6 -->
+    <div class="question" id="question-6">
+        <label>你在社交场合中的表现：</label><br>
+        <input type="radio" name="q6" value="A"> 非常活跃<br>
+        <input type="radio" name="q6" value="N"> 适度参与<br>
+        <input type="radio" name="q6" value="Q"> 偏安静<br>
+        <button class="button" onclick="nextQuestion(6)">下一题</button>
+    </div>
+
+    <!-- 问题 7 -->
+    <div class="question" id="question-7">
+        <label>在完成任务时，你更关注：</label><br>
+        <input type="radio" name="q7" value="Q"> 任务质量<br>
+        <input type="radio" name="q7" value="S"> 任务速度<br>
+        <input type="radio" name="q7" value="B"> 平衡质量与速度<br>
+        <button class="button" onclick="nextQuestion(7)">下一题</button>
+    </div>
+
+    <!-- 问题 8 -->
+    <div class="question" id="question-8">
+        <label>你在处理冲突时更倾向于：</label><br>
+        <input type="radio" name="q8" value="C"> 合理沟通<br>
+        <input type="radio" name="q8" value="A"> 直接行动<br>
+        <input type="radio" name="q8" value="A"> 避免冲突<br>
+        <button class="button" onclick="nextQuestion(8)">下一题</button>
+    </div>
+
+    <!-- 问题 9 -->
+    <div class="question" id="question-9">
+        <label>面对新事物时，你的反应是：</label><br>
+        <input type="radio" name="q9" value="O"> 非常好奇<br>
+        <input type="radio" name="q9" value="S"> 观察后决定<br>
+        <input type="radio" name="q9" value="R"> 保守谨慎<br>
+        <button class="button" onclick="nextQuestion(9)">下一题</button>
+    </div>
+
+    <!-- 问题 10 -->
+    <div class="question" id="question-10">
+        <label>你对未来的态度是：</label><br>
+        <input type="radio" name="q10" value="P"> 乐观积极<br>
+        <input type="radio" name="q10" value="M"> 中立谨慎<br>
+        <input type="radio" name="q10" value="N"> 偏向保守<br>
+        <button class="button" onclick="showResult()">提交</button>
     </div>
 
     <!-- 结果显示 -->
@@ -82,14 +148,13 @@
 
         // 跳转到下一题
         function nextQuestion(currentQuestion) {
-            // 获取当前问题的选项
             const currentInputs = document.querySelectorAll(`#question-${currentQuestion} input`);
             let answered = false;
 
             // 检查是否回答了当前问题
             currentInputs.forEach(input => {
                 if (input.checked) {
-                    answers[input.name] = input.value; // 保存答案
+                    answers[`q${currentQuestion}`] = input.value; // 保存答案
                     answered = true;
                 }
             });
@@ -102,12 +167,10 @@
             // 隐藏当前问题
             document.getElementById(`question-${currentQuestion}`).classList.remove('active');
 
-            // 显示下一问题或结果
+            // 显示下一问题
             const nextQuestion = document.getElementById(`question-${currentQuestion + 1}`);
             if (nextQuestion) {
                 nextQuestion.classList.add('active');
-            } else {
-                showResult();
             }
         }
 
@@ -117,7 +180,7 @@
             resultDiv.style.display = 'block';
 
             // 根据用户答案计算 MBTI
-            const mbti = (answers.energy || '') + (answers.decision || '') + (answers.approach || '');
+            const mbti = Object.values(answers).join('');
             document.getElementById('mbtiType').innerText = mbti;
         }
     </script>
